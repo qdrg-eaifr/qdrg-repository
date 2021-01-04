@@ -1,0 +1,74 @@
+#########################################################################
+### 5D Diatom-Triatom Inelastic scattering4D inelastic scattering     ###
+###   Rigid Rotor Approximation for the triatom and the diatom        ###
+###             Wigner-dvr, Leg-dvr, exp-dvr and FFT                  ###
+###           Generating the Potential Energy Surface                 ###
+#########################################################################
+
+RUN-SECTION
+ name  = glob1a1
+ title = H2O-H2 inelastic scattering, rigid rotor, jacobi coordinates, initial functions 2
+ relaxation=0, olsen 
+ split-rst
+ precon=10
+# genpes
+ geninwf
+ usepthreads=8
+ rlxunit=cm-1,0d0   #-1600d0 
+# converged=1.0d-6,cm-1
+ tfinal = 5.0  
+ tout = all
+ tpsi = 1.0
+ normstop = 0.02
+ steps gridpop ptiming
+#continuation
+end-run-section
+
+PARAMETER-SECTION
+ jtot  = 0
+end-parameter-section
+
+OPERATOR-SECTION
+ opname = in4
+#alter-labels
+#cap_R  = ACAP [ 32.0  0.0000000131922   4  +1 ] 
+#end-alter-labels
+end-operator-section
+
+sbasis-section
+# packets = 10, single-set
+ theta, phi = 1
+ be_h2o,ga_h2o,al_h2o = 10
+ no-redundancy-check
+end-sbasis-section
+
+pbasis-section
+ theta   KLeg       3  all       # 18  all
+ phi     k         -2   2        # -3    3
+ be_h2o  wigner     6  all       # 18  all   
+ ga_h2o  k         -5   5        # -7    7   
+ al_h2o  k         -5   5        # -3    3          #16  32
+end-pbasis-section
+
+INTEGRATOR-SECTION
+ CMF     = 0.5, 1d-3
+ RK8/spf = 1d-9, 0.01
+ DAV/A   = 100, 1d-8
+ eps_inv = 1d-10
+ natorb
+END-INTEGRATOR-SECTION
+
+INIT_WF-SECTION
+#BUILD
+# theta    kleg   0  nosym  excite=m     print  # l0,sym
+# phi       k     0  -2  2  1                   # m0
+# be_h2o  wigner  0  nosym  excite=kmj   print  # initial-j, use odd and even j
+# ga_h2o    k     0  -2  2  1                   # initial-k, kmin, kmax, dk
+# al_h2o    k     0  -2  2  1                   # initial-m, mmin, mmax, dm
+#END-BUILD
+#file=Test-J00-00kk
+file=glob1a00/rst001
+autoblock
+END-INIT_WF-SECTION
+
+end-input

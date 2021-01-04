@@ -1,0 +1,55 @@
+#########################################################################
+### 4D Atom-Triatom Inelastic scattering4D inelastic scattering (J=0) ###
+###            Rigid Rotor Approximation for the triatom              ###
+###                      Wigner-dvr and FFT                           ###
+###               Generating the initial wavefunction                 ###
+#########################################################################
+
+RUN-SECTION
+ name  = Prop-J001
+ title = HCOOCH3-He inelastic scattering, rigid rotor, jacobi coordinates, initial functions
+ propagation
+ usepthreads=32
+ tfinal = 50000.0  
+ tout = 20.0
+ normstop = 0.01
+ psi steps gridpop cross ptiming
+# continuation
+end-run-section
+
+PARAMETER-SECTION
+ jtot  = 1
+end-parameter-section
+
+OPERATOR-SECTION
+ opname = ch3chch2ohe-jgt0
+ alter-labels
+ cap_r  = ACAP [ 32.0  0.000000138742   4  +1 ] 
+ end-alter-labels
+end-operator-section
+
+sbasis-section
+#packets = 50, single-set
+ r = 20
+ be_mol,ga_mol,al_mol = 20
+#no-redundancy-check
+end-sbasis-section
+
+pbasis-section
+ r      FFT     768  4.0   40.0
+ be_mol wigner   40  all          #17  33
+ ga_mol exp      79  2pi          #33  65
+ al_mol k        -5   5           #16  32
+end-pbasis-section
+
+INTEGRATOR-SECTION
+ CMF/var =  0.25 , 1d-6
+ RK8/spf =   4d-8, 0.1
+ SIL/A   =   20  , 4d-7
+END-INTEGRATOR-SECTION
+
+INIT_WF-SECTION
+file=glob/restart       #noorthopsi,ignore
+#correction=dia                   #edstr
+end-init_wf-section
+end-input

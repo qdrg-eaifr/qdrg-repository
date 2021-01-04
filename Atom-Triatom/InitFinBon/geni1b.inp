@@ -1,0 +1,52 @@
+#########################################################################
+###               4D Atom-Triatom Inelastic scattering                ###
+###       Rigid Rotor Approximation for the triatom and Diatom        ###
+###                      Wigner-dvr and FFT                           ###
+###               Generating the initial wavefunction                 ###
+#########################################################################
+
+RUN-SECTION
+ name  = InitProj-gnrt/RST83
+ title = CH3CHCH2O-He inelastic scattering, rigid rotor, jacobi coordinates, initial functions
+ geninwf split-rst steps gridpop
+ usepthreads=4
+ tfinal =100.0  tout = all tpsi=0.01
+end-run-section
+
+PARAMETER-SECTION
+  jtot  = 0
+  sl0_1 = 0
+  sl0_2 = 0
+  slz_1 = 0
+  slz_2 = 0
+end-parameter-section
+
+OPERATOR-SECTION
+  opname = geni1b
+end-operator-section
+
+sbasis-section
+ r = 30
+ be_mol,ga_mol,al_mol = 30
+end-sbasis-section
+
+pbasis-section
+ r      FFT     768  4.0   40.0
+ be_mol wigner   40  all   
+ ga_mol exp      79  2pi
+ al_mol k        -5   5
+end-pbasis-section
+
+INTEGRATOR-SECTION
+ CMF     = 0.25, 1.0d-6
+ RK8/spf = 4.0d-8, 0.1
+ SIL/A   = 20, 4d-7 
+END-INTEGRATOR-SECTION
+
+INIT_WF-SECTION
+ autoblock
+ file = ../InitFin/globbis/
+ OPERATE = Imp
+end-init_wf-section
+
+end-input

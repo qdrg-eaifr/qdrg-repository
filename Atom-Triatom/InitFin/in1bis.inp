@@ -1,0 +1,64 @@
+#########################################################################
+### 5D Diatom-Triatom Inelastic scattering4D inelastic scattering     ###
+###   Rigid Rotor Approximation for the triatom and the diatom        ###
+###             Wigner-dvr, Leg-dvr, exp-dvr and FFT                  ###
+###           Generating the Potential Energy Surface                 ###
+#########################################################################
+
+RUN-SECTION
+ name  = glob1bis
+ title = CH3CHCH2O-He inelastic scattering, rigid rotor, jacobi coordinates, initial functions 1
+#relaxation=0, olsen split-rst
+ precon=100
+# genpes
+ geninwf
+ usepthreads=8
+ rlxunit=cm-1,0d0   #-1600d0 
+#rlxemin=183.0d0, cm-1   #241.0d0,cm-1
+ converged=1.0d-6,cm-1
+ tfinal = 0.0  
+ tout = all
+ tpsi = 1.0
+ normstop = 0.02
+ steps gridpop ptiming
+#continuation
+end-run-section
+
+PARAMETER-SECTION
+ jtot = 2
+end-parameter-section
+
+OPERATOR-SECTION
+ opname = in1bis
+#alter-labels
+#cap_R  = ACAP [ 32.0  0.0000000131922   4  +1 ] 
+#end-alter-labels
+end-operator-section
+
+sbasis-section
+#packets = 10, single-set
+ r = 50                           #  25
+end-sbasis-section
+
+pbasis-section
+ r       FFT      768  4.0   40.0 
+end-pbasis-section
+
+INTEGRATOR-SECTION
+ CMF     = 0.5, 1d-2
+ RK8/spf = 1d-9, 0.01
+ DAV/A   = 100, 1d-7
+ eps_inv = 1d-10
+ natorb
+END-INTEGRATOR-SECTION
+
+INIT_WF-SECTION
+BUILD
+ r       gauss   30.00    0.000    0.900       # r0, p0=0.000,2.200 sigma_r
+END-BUILD
+correction=dia
+#file=Test-J00-00kk
+#autoblock
+END-INIT_WF-SECTION
+
+end-input

@@ -1,0 +1,68 @@
+                ### ------ OPERATOR FILE ------ ###
+
+ OP_DEFINE-SECTION
+ TITLE
+ H2O-HCN Hamiltonian Operator, J>0, rigid rotor approximation
+ END-TITLE
+ END-OP_DEFINE-SECTION
+ PARAMETER-SECTION
+ hydrogen_mass = 1.0,H-mass
+ oxygen_mass = 15.99491463,AMU
+ argon_mass = 39.962384,AMU
+ mass_r = 3.7443879,AMU         #au
+ atomA_mass  = hydrogen_mass   # mass of atom A in molecule A-B-C
+ atomB_mass  = oxygen_mass     # mass of atom B in molecule A-B-C
+ atomC_mass  = hydrogen_mass   # mass of atom C in molecule A-B-C
+
+ Arot = 0.601213, cm-1
+ Brot = 0.222893, cm-1
+ Crot = 0.198517, cm-1
+ j_cent = jtot^2/2.0/mass_r+jtot/2.0/mass_r
+
+ sp = 30.0
+ omega = 0.0000373,au
+ massomegasq = mass_r*omega^2
+ END-PARAMETER-SECTION
+
+ LABELS-SECTION
+ well1d = q[sp]^2
+ impul = Exp[2.20,30.0]^1
+ END-LABELS-SECTION
+
+HAMILTONIAN-SECTION
+----------------------------------------------------------
+  modes            | r       | be_mol  | ga_mol  | al_mol
+----------------------------------------------------------
+#  1.0              | KE      | 1       | 1       | 1
+#------------------System Angular KEO----------------------
+#  j_cent           | q^-2    | 1       | 1       | 1
+#  0.5/mass_r       | q^-2    | j^2     | 1       | 1
+# -1.0/mass_r       | q^-2    | 1       | 1       | q^2
+#  0.5/mass_r       | q^-2    | jpms    | 1       | 1
+-----------------------RR MOL KEO-------------------------
+-Brot/1.0          | 1       | 1       | dq^2    | 1
+-Crot/4.0          | 1       | jp^2    | 1       | 1
+ Arot/4.0          | 1       | jp^2    | 1       | 1
+-Crot/4.0          | 1       | jm^2    | 1       | 1
+ Arot/4.0          | 1       | jm^2    | 1       | 1
+ Arot/4.0          | 1       | jpjm    | 1       | 1
+ Crot/4.0          | 1       | jpjm    | 1       | 1
+ Arot/4.0          | 1       | jmjp    | 1       | 1
+ Crot/4.0          | 1       | jmjp    | 1       | 1
+---------------------Potential Energy---------------------
+ massomegasq/2.0   | well1d  | 1       | 1       | 1 
+----------------------------------------------------------
+END-HAMILTONIAN-SECTION
+
+HAMILTONIAN-SECTION_Imp
+nodiag
+-----------------------------------------------------------
+  modes            | r       | be_mol  | ga_mol  | al_mol  
+-----------------------------------------------------------
+  1.0              | impul   | 1       | 1       | 1      
+-----------------------------------------------------------
+END-HAMILTONIAN-SECTION
+
+END-OPERATOR
+
+#******************************************************************************#

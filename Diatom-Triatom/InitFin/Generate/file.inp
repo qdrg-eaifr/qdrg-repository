@@ -1,0 +1,15 @@
+RUN-SECTION
+  name      = SumFunctions-000-a
+  normalize = 1
+end-run-section
+
+INIT_WF-SECTION
+ file  = fd-01
+# coeff =  1.0
+# file  = fd-25
+# coeff =  1.81453841253039
+# file  = fd-35
+# coeff =  1.0
+end-init_wf-section
+
+end-input

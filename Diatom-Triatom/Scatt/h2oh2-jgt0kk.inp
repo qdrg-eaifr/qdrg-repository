@@ -1,0 +1,84 @@
+#########################################################################
+### 5D Diatom-Triatom Inelastic scattering4D inelastic scattering     ###
+###   Rigid Rotor Approximation for the triatom and the diatom        ###
+###             Wigner-dvr, Leg-dvr, exp-dvr and FFT                  ###
+###           Generating the Potential Energy Surface                 ###
+#########################################################################
+
+RUN-SECTION
+#name  = Prop-a-J008
+#name  = Prop-b-J007
+ name  = Prop-c-J007
+ title = H2O-H2 inelastic scattering, rigid rotor, jacobi coordinates, initial functions
+ propagation
+ usepthreads=32
+#usempi
+ tfinal = 200000.0  
+ tout = 20.0
+ normstop = 0.005
+ steps gridpop cross ptiming
+ psi
+ continuation
+end-run-section
+
+PARAMETER-SECTION
+ jtot  = 7
+end-parameter-section
+
+OPERATOR-SECTION
+ opname = h2oh2-jgt0kk
+ alter-labels
+ cap_R  = ACAP [ 55.0  0.00000000475925   4  +1 ] 
+ end-alter-labels
+end-operator-section
+
+sbasis-section
+#packets = 8, single-set
+ R = 15
+ theta,phi = 12
+ be_h2o,ga_h2o,al_h2o = 25
+end-sbasis-section
+
+pbasis-section
+ R       FFT      960  2.0   72.0
+ theta   KLeg       3  all       # 18  all          #17  33
+ phi     k         -2   2        # -3    3          #33  65
+ be_h2o  wigner     6  all       # 18  all   
+ ga_h2o  k         -5   5        # -7    7   
+ al_h2o  k         -5   5        # -3    3          #16  32
+# R       FFT      768  2.0   42.0
+# theta   KLeg       8  all       # 18  all          #17  33
+# phi     k         -4   4        # -3    3          #33  65
+# be_h2o  wigner    12  all       # 18  all   
+# ga_h2o  k         -9   9        # -7    7   
+# al_h2o  k         -4   4        # -3    3          #16  32
+# R       FFT      768  2.0   42.0
+# theta   KLeg       8  all       # 18  all          #17  33
+# phi     k         -4   4        # -3    3          #33  65
+# be_h2o  wigner    15  all       # 18  all   
+# ga_h2o  k         -9   9        # -7    7   
+# al_h2o  k         -4   4        # -3    3          #16  32
+end-pbasis-section
+
+INTEGRATOR-SECTION
+ CMF/var = 0.05, 1d-6  #0.10, 1d-6
+ RK8/spf = 1d-8, 0.05  #4d-8, 0.1
+ SIL/A   = 50, 5d-7    #30, 4d-7
+END-INTEGRATOR-SECTION
+
+INIT_WF-SECTION
+#BUILD
+# R       gauss   28.00   -14.00   0.135        # r0, p0, sigma_r
+# be_h2o  wigner  0  nosym  excite=kmj   print  # initial-j, use odd and even j 
+# ga_h2o    k     0  -3  3  1                   # initial-k, kmin, kmax, dk
+# al_h2o    k     0  -3  3  1                   # initial-m, mmin, mmax, dm
+# theta    kleg   0  nosym  excite=m     print  # l0,sym
+# phi       k     0  -3  3  1                   # m0
+#END-BUILD
+#file=globa-gnrt/restart
+#file=globb-gnrt/restart
+ file=globc-gnrt/restart
+#correction=dia
+#autoblock
+END-INIT_WF-SECTION
+end-input

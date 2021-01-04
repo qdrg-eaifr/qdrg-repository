@@ -1,0 +1,76 @@
+                ### ------ OPERATOR FILE ------ ###
+
+ OP_DEFINE-SECTION
+ TITLE
+ H2O-HCN Hamiltonian Operator, J>0, rigid rotor approximation
+ END-TITLE
+ END-OP_DEFINE-SECTION
+ PARAMETER-SECTION
+ hydrogen_mass = 1.0,H-mass
+ carbon_mass = 12.0,AMU
+ oxygen_mass = 15.99491461959,AMU
+ nitrogen_mass = 14.0030740048,AMU
+ monomerA_mass = 2.0*hydrogen_mass+oxygen_mass
+ monomerB_mass = 2.0*hydrogen_mass
+ mass_total = monomerA_mass+monomerB_mass
+ mass_R = monomerA_mass*monomerB_mass/mass_total
+ #mass_R = 10.803787133,AMU         #au
+ Arot = 27.8572, cm-1
+ Brot = 14.5145, cm-1
+ Crot =  9.2799, cm-1
+ BH2rot = 59.2434, cm-1
+ sp = 33.0
+ omega = 0.0000373,au
+ massomegasq = mass_R*omega^2
+ j_cent = jtot^2/2.0/mass_R+jtot/2.0/mass_R
+ END-PARAMETER-SECTION
+
+ LABELS-SECTION
+ well1d = q[sp]^2
+ impul = Exp[1.60,53.0]^1
+ END-LABELS-SECTION
+
+HAMILTONIAN-SECTION
+  ----------------------------------------------------------------------------------------------------------------
+  modes                      | R        | be_h2o               | ga_h2o  | al_h2o  | theta           | phi
+  ----------------------------------------------------------------------------------------------------------------
+#  -0.5/mass_R                |1 q^-2    |2 j_ms                |4&6 cpp                      # These four lines Test
+#  -0.5/mass_R                |1 q^-2    |5 j_p                 |4&6 cpp                      # should be        Test
+#  -0.5/mass_R                |1 q^-2    |2 j_ps                |4&6 cmm                      # removed          Test
+#  -0.5/mass_R                |1 q^-2    |5 j_m                 |4&6 cmm                      # for J=0          Test
+#   1.0                       | KE       | 1                    | 1       | 1       | 1               | 1
+#   j_cent                    | q^-2     | 1                    | 1       | 1       | 1               | 1
+#   0.5/mass_R                | q^-2     | j^2                  | 1       | 1       | 1               | 1
+#   0.5/mass_R                | q^-2     | 1                    | 1       | 1       | j^2             | 1
+#  -1.0/mass_R                | q^-2     | 1                    | 1       | q       | 1               | q
+#   0.5/mass_R                | q^-2     | j_ps                 | 1       | 1       | j_m             | 1
+#   0.5/mass_R                | q^-2     | j_ms                 | 1       | 1       | j_p             | 1
+#  -1.0/mass_R                | q^-2     | 1                    | 1       | q^2     | 1               | 1
+#  -1.0/mass_R                | q^-2     | 1                    | 1       | 1       | 1               | q^2
+  -----------------------------------------RR H2O-HCN KEO---------------------------------------------------------
+   massomegasq/2.0           | well1d   | 1                    | 1       | 1       | 1               | 1         
+   Brot/1.0                  | 1        | 1                    | q^2     | 1       | 1               | 1
+  -Crot/4.0                  | 1        | jp^2                 | 1       | 1       | 1               | 1
+   Arot/4.0                  | 1        | jp^2                 | 1       | 1       | 1               | 1
+  -Crot/4.0                  | 1        | jm^2                 | 1       | 1       | 1               | 1
+   Arot/4.0                  | 1        | jm^2                 | 1       | 1       | 1               | 1
+   Arot/4.0                  | 1        | jpjm                 | 1       | 1       | 1               | 1
+   Crot/4.0                  | 1        | jpjm                 | 1       | 1       | 1               | 1
+   Arot/4.0                  | 1        | jmjp                 | 1       | 1       | 1               | 1
+   Crot/4.0                  | 1        | jmjp                 | 1       | 1       | 1               | 1
+   BH2rot/1.0                | 1        | 1                    | 1       | 1       | j^2             | 1
+  ----------------------------------------------------------------------------------------------------------------
+END-HAMILTONIAN-SECTION
+
+HAMILTONIAN-SECTION_Imp
+nodiag
+  ----------------------------------------------------------------------------------------------------------------
+  modes                      | R        | be_h2o               | ga_h2o  | al_h2o  | theta           | phi
+  ----------------------------------------------------------------------------------------------------------------
+  1.0                        | impul    | 1                    | 1       | 1       | 1               | 1
+  ----------------------------------------------------------------------------------------------------------------
+END-HAMILTONIAN-SECTION
+
+END-OPERATOR
+
+#******************************************************************************#

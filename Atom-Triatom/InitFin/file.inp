@@ -1,0 +1,29 @@
+RUN-SECTION
+ name      = SumFunctions-330-g
+ normalize = 1
+end-run-section
+
+INIT_WF-SECTION
+# file  =  fd-15
+# coeff =  0.3699583310
+# file  =  fd-25
+# coeff =  0.8522098724 
+# file  =  fd-35
+# coeff =  0.3699583310
+# file  =  fd-49
+# coeff = -1.0
+# file  =  fd-77
+# coeff =  1.0
+ file  =  fd-42
+ coeff =  0.1873446676
+ file  =  fd-56
+ coeff =  0.6818372060
+ file  =  fd-70
+ coeff =  0.6818372060
+ file  =  fd-84
+ coeff =  0.1873446676
+# file  = fd-07
+# coeff =  1.0
+end-init_wf-section
+
+end-input

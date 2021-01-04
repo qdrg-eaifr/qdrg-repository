@@ -1,0 +1,64 @@
+#########################################################################
+### 5D Diatom-Triatom Inelastic scattering4D inelastic scattering     ###
+###   Rigid Rotor Approximation for the triatom and the diatom        ###
+###             Wigner-dvr, Leg-dvr, exp-dvr and FFT                  ###
+###           Generating the Potential Energy Surface                 ###
+#########################################################################
+
+RUN-SECTION
+ name  = glob0bis
+ title = H2O-H2 inelastic scattering, rigid rotor, jacobi coordinates, initial functions 1
+#relaxation=0, olsen split-rst
+ precon=100
+# genpes
+ geninwf
+ usepthreads=8
+ rlxunit=cm-1,0d0   #-1600d0 
+#rlxemin=183.0d0, cm-1   #241.0d0,cm-1
+ converged=1.0d-6,cm-1
+ tfinal = 0.0  
+ tout = all
+ tpsi = 1.0
+ normstop = 0.02
+ steps gridpop ptiming
+#continuation
+end-run-section
+
+PARAMETER-SECTION
+ jtot  = 0
+end-parameter-section
+
+OPERATOR-SECTION
+ opname = in0
+#alter-labels
+#cap_R  = ACAP [ 32.0  0.0000000131922   4  +1 ] 
+#end-alter-labels
+end-operator-section
+
+sbasis-section
+#packets = 10, single-set
+ R = 30
+end-sbasis-section
+
+pbasis-section
+ R       FFT      960  2.0   72.0 
+end-pbasis-section
+
+INTEGRATOR-SECTION
+ CMF     = 0.5, 1d-2
+ RK8/spf = 1d-9, 0.01
+ DAV/A   = 100, 1d-7
+ eps_inv = 1d-10
+ natorb
+END-INTEGRATOR-SECTION
+
+INIT_WF-SECTION
+BUILD
+ R       gauss   53.00    0.00    1.300        # r0, p0, sigma_r
+END-BUILD
+#correction=dia
+#file=Test-J00-00kk
+#autoblock
+END-INIT_WF-SECTION
+
+end-input

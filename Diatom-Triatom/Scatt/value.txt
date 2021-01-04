@@ -1,0 +1,1 @@
+0.025 cm-1 --- to be multiplied by j*(j+1)

@@ -1,0 +1,43 @@
+  ### ------ OPERATOR FILE ------ ### 
+  
+ OP_DEFINE-SECTION
+ TITLE
+ H2O-H2 Hamiltonian Operator, J>0, rigid rotor approximation
+ END-TITLE
+ END-OP_DEFINE-SECTION
+ PARAMETER-SECTION
+ hydrogen_mass = 1.0,H-mass
+ carbon_mass = 12.0,AMU
+ oxygen_mass = 15.99491461959,AMU
+ nitrogen_mass = 14.0030740048,AMU
+ monomerA_mass = 2.0*hydrogen_mass+oxygen_mass
+ monomerB_mass = carbon_mass+oxygen_mass
+ mass_total = monomerA_mass+monomerB_mass
+ #mass_R = monomerA_mass*monomerB_mass/mass_total
+ mass_r = 3.7443879,AMU         #au
+ Arot = 0.601213, cm-1
+ Brot = 0.222893, cm-1
+ Crot = 0.198517, cm-1
+ j_cent = jtot^2/2.0/mass_r+jtot/2.0/mass_r
+ END-PARAMETER-SECTION
+  
+ HAMILTONIAN-SECTION
+  -------------------------------------------------------------------
+  modes                      | be_mol     | ga_mol  | al_mol  
+  -------------------------------RR H2O-H2 KEO----------------------
+  -Brot/1.0                  | 1          | dq^2    | 1       
+  -Crot/4.0                  | jp^2       | 1       | 1       
+   Arot/4.0                  | jp^2       | 1       | 1       
+  -Crot/4.0                  | jm^2       | 1       | 1       
+   Arot/4.0                  | jm^2       | 1       | 1       
+   Arot/4.0                  | jpjm       | 1       | 1       
+   Crot/4.0                  | jpjm       | 1       | 1       
+   Arot/4.0                  | jmjp       | 1       | 1       
+   Crot/4.0                  | jmjp       | 1       | 1       
+ --------------------------------------------------------------------
+ END-HAMILTONIAN-SECTION
+  
+  
+ LABELS-SECTION
+ END-LABELS-SECTION
+END-OPERATOR

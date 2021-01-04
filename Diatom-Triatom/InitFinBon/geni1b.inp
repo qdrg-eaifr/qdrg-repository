@@ -1,0 +1,55 @@
+#########################################################################
+###           5D Diatom-Triatom Inelastic scattering (J=0)            ###
+###       Rigid Rotor Approximation for the triatom and Diatom        ###
+###                      Wigner-dvr and FFT                           ###
+###               Generating the initial wavefunction                 ###
+#########################################################################
+
+RUN-SECTION
+ name  = InitProj-test-3/RST37
+ title = H2O-H2 inelastic scattering, rigid rotor, jacobi coordinates, initial functions
+ geninwf split-rst steps gridpop
+ usepthreads=4
+ tfinal =100.0  tout = all tpsi=0.01
+end-run-section
+
+PARAMETER-SECTION
+  jtot  = 0
+  sl0_1 = 0
+  sl0_2 = 0
+  slz_1 = 0
+  slz_2 = 0
+end-parameter-section
+
+OPERATOR-SECTION
+  opname = geni1b
+end-operator-section
+
+sbasis-section
+ R = 10
+ theta,phi = 10
+ be_h2o,ga_h2o,al_h2o = 10
+end-sbasis-section
+
+pbasis-section
+ R      FFT     960  2.0   72.0
+ theta  KLeg      3  all
+ phi    k        -2   2
+ be_h2o wigner    6  all   #17  33
+ ga_h2o k        -5   5
+ al_h2o k        -5   5
+end-pbasis-section
+
+INTEGRATOR-SECTION
+ CMF     = 0.25, 1.0d-6
+ RK8/spf = 4.0d-8, 0.1
+ SIL/A   = 20, 4d-7 
+END-INTEGRATOR-SECTION
+
+INIT_WF-SECTION
+ autoblock
+ file = ../InitFin1/globbist/
+ OPERATE = Imp
+end-init_wf-section
+
+end-input

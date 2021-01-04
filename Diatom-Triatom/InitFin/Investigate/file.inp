@@ -1,0 +1,15 @@
+RUN-SECTION
+  name      = SumFunctions
+  normalize = 1
+end-run-section
+
+INIT_WF-SECTION
+ file  = ../glob4a1
+ coeff = 1.0
+ file  = ../glob4a2
+ coeff = 1.0
+ file  = ../glob4a3
+ coeff = 1.0
+end-init_wf-section
+
+end-input
